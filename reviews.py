@@ -32,10 +32,17 @@ for file_name in [file for file in os.listdir(path_to_json) if file.endswith('.j
     _list = data['Reviews']
     # read listvalue and load dict
     for v in _list:
-       reviews.append( v['Title'] + v['Content'])
-       ratings.append(v['Ratings'])
-       authors.append(v['Author'])
-       hotels.append(data['HotelInfo']['HotelID'])
+        if ('Title' in v):
+            fullContent = v['Title']
+        else:
+            fullContent = ''
+
+        fullContent = fullContent + ' ' + v['Content']
+        reviews.append(fullContent)
+
+        ratings.append(v['Ratings'])
+        authors.append(v['Author'])
+        hotels.append(data['HotelInfo']['HotelID'])
 
 predictions = model.predict_classes(reviews, ratings, authors, hotels)
 print(predictions, '\n')
